@@ -6,8 +6,8 @@ const Home = () => {
       <Link href="/vigenere-cipher">
         <div>Vigenere Cipher</div>
       </Link>
-      <Link href="/varian-vigenere-cipher">
-        <div>Varian Vigenere Cipher</div>
+      <Link href="/auto-key-vigenere-cipher">
+        <div>Auto-key Vigenere Cipher</div>
       </Link>
       <Link href="/extended-vigenere-cipher">
         <div>Extended Vigenere Cipher</div>

@@ -1,8 +1,10 @@
-import { HillCipherSrv, AffineCipherSrv } from "../src/services";
+import {
+  HillCipherSrv,
+  AffineCipherSrv,
+  AutoKeyVigenereCipherSrv,
+} from "../src/services";
 
 const TestAffineCipherSrv = () => {
-  console.log("TestAffineCipherSrv");
-
   const text = "AFFINE CIPHER"
 
   const affineCipherSrv = new AffineCipherSrv(17, 20);
@@ -16,8 +18,23 @@ const TestAffineCipherSrv = () => {
   console.log("TestAffineCipherSrv passed");
 }
 
+const TestAutoKeyVigenereCipherSrv = () => {
+  const text = "HELLO"
+
+  const autoKeyVigenereCipherSrv = new AutoKeyVigenereCipherSrv("N");
+  const encrypted = autoKeyVigenereCipherSrv.encrypt(text);
+  const decrypted = autoKeyVigenereCipherSrv.decrypt(encrypted);
+
+  if (decrypted !== text) {
+    throw new Error("AutoKeyVigenereCipherSrv failed");
+  }
+
+  console.log("TestAutoKeyVigenereCipherSrv passed");
+}
+
 const main = () => {
   TestAffineCipherSrv();
+  TestAutoKeyVigenereCipherSrv();
 }
 
 
