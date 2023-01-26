@@ -1,18 +1,24 @@
 import styles from "./index.module.css";
 
+type InputHandler = {
+  name: string;
+  placeholder: string;
+  inputVal: string;
+  onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
-const Input = (props: {
-  encryptionKey: string;
-  onChangeEncryptionKey: (e: React.ChangeEvent<HTMLInputElement>) => void;
+type InputProps = {
+  inputHandlers: InputHandler[];
   msg: string;
   onChangeMsg: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEncrypt: () => void;
   onDecrypt: () => void;
   result: string;
-}) => {
+}
+
+const Input = (props: InputProps) => {
   const {
-    encryptionKey,
-    onChangeEncryptionKey,
+    inputHandlers,
     msg,
     onChangeMsg,
     onEncrypt,
@@ -22,14 +28,23 @@ const Input = (props: {
 
   return (
     <div>
-      <div className={styles.input}>
-        <input
-          type="text"
-          name="encryption-key"
-          placeholder="encryption key"
-          value={encryptionKey}
-          onChange={onChangeEncryptionKey}
-        />
+      <div className={styles.inputs}>
+        {
+          inputHandlers.map((inputHandler) => {
+            return (
+              <input
+                key={inputHandler.name}
+                type="text"
+                name={inputHandler.name}
+                placeholder={inputHandler.placeholder}
+                value={inputHandler.inputVal}
+                onChange={inputHandler.onChangeInput}
+              />
+            );
+          })
+        }
+      </div>
+      <div>
         <input
           type="text"
           name="msg"
