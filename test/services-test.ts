@@ -2,7 +2,22 @@ import {
   HillCipherSrv,
   AffineCipherSrv,
   AutoKeyVigenereCipherSrv,
+  VigenereCipherSrv
 } from "../src/services";
+
+const TestVigenereCipherSrv = () => {
+  const text = "ET TU, BRUTE?"
+
+  const affineCipherSrv = new VigenereCipherSrv("JULIUS");
+  const encrypted = affineCipherSrv.encrypt(text);
+  const decrypted = affineCipherSrv.decrypt(encrypted);
+
+  if (decrypted !== text) {
+    throw new Error("AffineCipherSrv failed");
+  }
+
+  console.log("TestAffineCipherSrv passed");
+}
 
 const TestAffineCipherSrv = () => {
   const text = "AFFINE CIPHER"
@@ -33,6 +48,7 @@ const TestAutoKeyVigenereCipherSrv = () => {
 }
 
 const main = () => {
+  TestVigenereCipherSrv();
   TestAffineCipherSrv();
   TestAutoKeyVigenereCipherSrv();
 }
