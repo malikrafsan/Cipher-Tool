@@ -20,8 +20,9 @@ class PlayFairCipher implements ICipherSrv {
 
   createBujurSangkar(): string[][] {
     let dict = {};
+    this.key = this.key.replace("J", "I");
     for (let i = 0; i < this.key.length; i++) {
-        if (this.key[i] < 'A' || this.key[i] > 'Z' || this.key[i] === 'J' || this.key[i] in dict)
+        if (this.key[i] < 'A' || this.key[i] > 'Z' || this.key[i] in dict)
         {
             this.key = this.key.substring(0, i) + this.key.substring(i + 1);
             i--;
@@ -82,18 +83,16 @@ class PlayFairCipher implements ICipherSrv {
         }
     }
 
-    console.log(square)
-
     let hasilCipher = "";
   
     for (let i = 0; i < pasangan.length; i++) {
         let huruf1 = this.findCharacter(pasangan[i][0],square);
         let huruf2 = this.findCharacter(pasangan[i][1],square);
-
-        if(huruf1[1] === huruf2[1]) {
-            hasilCipher += square[huruf1[0] + 1 % 5][huruf1[1]] + square[huruf2[0] + 1 % 5][huruf2[1]]
-        } else if (huruf1[0] === huruf2[0]) {
-            hasilCipher += square[huruf1[0]][huruf1[1] + 1 % 5] + square[huruf2[0]][huruf2[1] + 1 % 5]
+        console.log(huruf1, huruf2)
+        if (huruf1[0] === huruf2[0]) {
+            hasilCipher += square[huruf1[0]][(huruf1[1] + 1) % 5] + square[huruf2[0]][(huruf2[1] + 1) % 5]
+        } else if(huruf1[1] === huruf2[1]) {
+            hasilCipher += square[(huruf1[0] + 1) % 5][huruf1[1]] + square[(huruf2[0] + 1) % 5][huruf2[1]]
         } else {
             hasilCipher += square[huruf1[0]][huruf2[1]] + square[huruf2[0]][huruf1[1]]
         }
@@ -125,12 +124,11 @@ class PlayFairCipher implements ICipherSrv {
     for (let i = 0; i < pasangan.length; i++) {
         let huruf1 = this.findCharacter(pasangan[i][0],square);
         let huruf2 = this.findCharacter(pasangan[i][1],square);
-        console.log(pasangan[i])
-        console.log(huruf1, huruf2)
-        if(huruf1[1] === huruf2[1]) {
-            hasilDekrip += square[huruf1[0] - 1 % 5][huruf1[1]] + square[huruf2[0] - 1 % 5][huruf2[1]]
-        } else if (huruf1[0] === huruf2[0]) {
-            hasilDekrip += square[huruf1[0]][huruf1[1] - 1 % 5] + square[huruf2[0]][huruf2[1] - 1 % 5]
+
+        if (huruf1[0] === huruf2[0]) {
+            hasilDekrip += square[huruf1[0]][(huruf1[1] - 1) % 5] + square[huruf2[0]][(huruf2[1] - 1) % 5]
+        } else if(huruf1[1] === huruf2[1]) {
+            hasilDekrip += square[(huruf1[0] - 1) % 5][huruf1[1]] + square[(huruf2[0] - 1) % 5][huruf2[1]]
         } else {
             hasilDekrip += square[huruf1[0]][huruf2[1]] + square[huruf2[0]][huruf1[1]];
         }
