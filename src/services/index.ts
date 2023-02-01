@@ -7,6 +7,7 @@ import ExtendedVigenereCipherSrv from "./extended-vigenere-cipher-srv";
 import PlayFairCipherSrv from "./playfair-cipher-srv";
 import ApiSrv from "./api-srv";
 import CipherApiSrv from "./cipher-api-srv";
+import FileExtractorSrv from "./file-extractor-srv";
 
 export {
   type ICipherSrv,
@@ -18,4 +19,5 @@ export {
   PlayFairCipherSrv,
   ApiSrv,
   CipherApiSrv,
+  FileExtractorSrv,
 };

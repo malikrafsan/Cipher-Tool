@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FileExtractorSrv } from "@/services";
 
 const TestPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -11,29 +12,23 @@ const TestPage = () => {
     }
   }
 
-  const handleRead = () => {
+  const handleRead = async () => {
     if (!file) {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const text = e.target.result;
-      setText(text as string);
-    };
-    reader.readAsText(file);
+    const text = await FileExtractorSrv.readTxtFile(file);
+    setText(text as string);
   }
 
   const handleDownload = () => {
-    const element = document.createElement("a");
-    const file = new Blob([text], {
-      type: "text/plain",
-    });
-    element.style.display = "none";
-    element.href = URL.createObjectURL(file);
-    element.download = "myFile.txt";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
+    if (!text) {
+      return;
+    }
+
+    if (!FileExtractorSrv.download(text, "myFile.txt")) {
+      alert("Download failed");
+    }
   }
 
   return (
