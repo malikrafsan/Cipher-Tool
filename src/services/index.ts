@@ -5,6 +5,8 @@ import AutoKeyVigenereCipherSrv from "./auto-key-vigenere-cipher-srv";
 import VigenereCipherSrv from "./vigenere-cipher-srv";
 import ExtendedVigenereCipherSrv from "./extended-vigenere-cipher-srv";
 import PlayFairCipherSrv from "./playfair-cipher-srv";
+import ApiSrv from "./api-srv";
+import CipherApiSrv from "./cipher-api-srv";
 
 export {
   type ICipherSrv,
@@ -13,5 +15,7 @@ export {
   AutoKeyVigenereCipherSrv,
   VigenereCipherSrv,
   ExtendedVigenereCipherSrv,
-  PlayFairCipherSrv
+  PlayFairCipherSrv,
+  ApiSrv,
+  CipherApiSrv,
 };
