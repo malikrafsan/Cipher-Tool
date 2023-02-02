@@ -1,55 +1,67 @@
-import { Input } from "@/components";
+import { Layout } from "@/components";
 import { useState } from "react";
-import { AffineCipherSrv } from "@/services";
+import { AffineCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const AffineCipher = () => {
-  const [a, setA] = useState("");
-  const [b, setB] = useState("");
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
 
-	const onEncrypt = () => {
-		const intA = parseInt(a);
-		const intB = parseInt(b);
-
-    const affineCipherSrv = new AffineCipherSrv(intA, intB);
-    const result = affineCipherSrv.encrypt(msg);
+  const onEncrypt = () => {
+    const affineCipherSrv = new AffineCipherSrv(a, b);
+    const cleaned = TextProcessor.clean(msg);
+    const result = affineCipherSrv.encrypt(cleaned);
     setResult(result);
   };
 
-	const onDecrypt = () => {
-		const intA = parseInt(a);
-		const intB = parseInt(b);
-
-    const affineCipherSrv = new AffineCipherSrv(intA, intB);
+  const onDecrypt = () => {
+    const affineCipherSrv = new AffineCipherSrv(a, b);
     const result = affineCipherSrv.decrypt(msg);
     setResult(result);
+  };
+
+  const onReadFile = async (file: File) => {
+    if (file.type !== "text/plain") {
+      alert("File must be text");
+      return;
+    }
+
+    const text = await FileExtractorSrv.readTxtFile(file);
+    setMsg(text);
+  };
+
+  const onDownload = () => {
+    if (!FileExtractorSrv.download(result, "myFile.txt")) {
+      alert("Download failed");
+    }
   };
 
   return (
     <div>
       <h1>Affine Cipher</h1>
-      <Input
-        inputHandlers={[
-          {
-            inputVal: a,
-            onChangeInput: (e) => setA(e.target.value),
-            name: "affine cipher a",
-            placeholder: "affine cipher a",
-          },
-          {
-            inputVal: b,
-            onChangeInput: (e) => setB(e.target.value),
-            name: "affine cipher b",
-            placeholder: "affine cipher b",
-          },
-        ]}
-        msg={msg}
-        onChangeMsg={(e) => setMsg(e.target.value)}
-        onEncrypt={onEncrypt}
+      <Layout
+        onDownload={onDownload}
         onDecrypt={onDecrypt}
+        onEncrypt={onEncrypt}
+        onReadFile={onReadFile}
+        onInput={(str) => setMsg(str)}
+        textInput={msg}
         result={result}
-      />
+      >
+        <input
+          type="number"
+          value={a}
+          onChange={(e) => setA(parseInt(e.target.value))}
+          placeholder="affine cipher a"
+        />
+        <input
+          type="number"
+          value={b}
+          onChange={(e) => setB(parseInt(e.target.value))}
+          placeholder="affine cipher b"
+        />
+      </Layout>
     </div>
   );
 };

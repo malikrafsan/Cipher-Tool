@@ -5,14 +5,20 @@ class FileExtractorSrv {
     }
 
     const fileReader = new FileReader();
-    return new Promise<string | ArrayBuffer>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       fileReader.onload = (e) => {
-        resolve(e.target.result);
+        resolve(e.target.result as string);
       };
       fileReader.onerror = (error) => {
         reject(error);
       };
       fileReader.readAsText(file);
+    });
+  }
+
+  private static createBlob(data: string, type: string) {
+    return new Blob([data], {
+      type,
     });
   }
 
@@ -22,12 +28,10 @@ class FileExtractorSrv {
     }
 
     const element = document.createElement("a");
-    const file = new Blob([data], {
-      type: "text/plain",
-    });
+    const file = this.createBlob(data, "text/plain");
     element.style.display = "none";
     element.href = URL.createObjectURL(file);
-    element.download = filename;
+    element.download = filename + ".txt";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);

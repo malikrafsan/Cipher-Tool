@@ -1,43 +1,63 @@
 import { useState } from "react";
 
-import { Input } from "@/components";
-import { PlayFairCipherSrv } from "@/services";
+import { Layout } from "@/components";
+import { PlayFairCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const PlayFairCipher = () => {
   const [key, setKey] = useState("");
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
 
-	const onEncrypt = () => {
-    const affineCipherSrv = new PlayFairCipherSrv(key);
-    const result = affineCipherSrv.encrypt(msg);
+  const onEncrypt = () => {
+    const cleanKey = TextProcessor.clean(key);
+    const affineCipherSrv = new PlayFairCipherSrv(cleanKey);
+    const cleaned = TextProcessor.clean(msg);
+    const result = affineCipherSrv.encrypt(cleaned);
     setResult(result);
   };
 
   const onDecrypt = () => {
-    const affineCipherSrv = new PlayFairCipherSrv(key);
+    const cleanKey = TextProcessor.clean(key);
+    const affineCipherSrv = new PlayFairCipherSrv(cleanKey);
     const result = affineCipherSrv.decrypt(msg);
     setResult(result);
+  };
+
+  const onReadFile = async (file: File) => {
+    if (file.type !== "text/plain") {
+      alert("File must be text");
+      return;
+    }
+
+    const text = await FileExtractorSrv.readTxtFile(file);
+    setMsg(text);
+  };
+
+  const onDownload = () => {
+    if (!FileExtractorSrv.download(result, "myFile.txt")) {
+      alert("Download failed");
+    }
   };
 
   return (
     <div>
       <h1>Play Fair Cipher</h1>
-      <Input
-        inputHandlers={[
-          {
-            inputVal: key,
-            onChangeInput: (e) => setKey(e.target.value),
-            name: "key",
-            placeholder: "key",
-          },
-        ]}
-        msg={msg}
-        onChangeMsg={(e) => setMsg(e.target.value)}
+      <Layout
         onEncrypt={onEncrypt}
         onDecrypt={onDecrypt}
         result={result}
-      />
+        onInput={(str) => setMsg(str)}
+        textInput={msg}
+        onDownload={onDownload}
+        onReadFile={onReadFile}
+      >
+        <input
+          type="text"
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+          placeholder="key"
+        />
+      </Layout>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import PlayFairCipherSrv from "./playfair-cipher-srv";
 import ApiSrv from "./api-srv";
 import CipherApiSrv from "./cipher-api-srv";
 import FileExtractorSrv from "./file-extractor-srv";
+import TextProcessor from "./text-processor";
 
 export {
   type ICipherSrv,
@@ -20,4 +21,5 @@ export {
   ApiSrv,
   CipherApiSrv,
   FileExtractorSrv,
+  TextProcessor,
 };
