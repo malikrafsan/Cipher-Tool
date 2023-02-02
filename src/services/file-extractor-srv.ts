@@ -31,7 +31,23 @@ class FileExtractorSrv {
     const file = this.createBlob(data, "text/plain");
     element.style.display = "none";
     element.href = URL.createObjectURL(file);
-    element.download = filename + ".txt";
+    element.download = filename;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+
+    return true;
+  }
+
+  static downloadFile(file: Blob | MediaSource, filename: string): boolean {
+    if (!document) {
+      return false;
+    }
+
+    const element = document.createElement("a");
+    element.style.display = "none";
+    element.href = URL.createObjectURL(file);
+    element.download = filename;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
