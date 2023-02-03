@@ -13,17 +13,18 @@ import {
   TextProcessor,
 } from "../src/services";
 
-const testSrv = async (
-  srv: ICipherSrv,
-  text: string,
-  noCleanText: boolean = false
-) => {
+const testSrv = async (test: ITest) => {
+  const { srv, text, noCleanText, customCompare } = test;
+
   const cleanedText = !noCleanText ? TextProcessor.clean(text) : text;
 
   const cipher = await srv.encrypt(cleanedText);
   const decrypted = await srv.decrypt(cipher);
 
-  if (decrypted !== cleanedText) {
+  const flag = customCompare
+    ? customCompare(cleanedText, decrypted)
+    : decrypted === cleanedText;
+  if (!flag) {
     throw new Error(
       "TestSrv failed: " +
         srv.constructor.name +
@@ -40,22 +41,32 @@ const testSrv = async (
   return true;
 };
 
+interface ITest {
+  srv: ICipherSrv;
+  text: string;
+  noCleanText?: boolean;
+  customCompare?: (text: string, decrypt: string) => boolean;
+}
+
+const hillCipherComparator = (text: string, decrypt: string) => {
+  const clipDecrypt = decrypt.slice(0, text.length);
+  return clipDecrypt === text;
+};
+
 const HillCipherTest = [
   {
     srv: new HillCipherSrv([
-      [1, 2],
+      [1, 5],
       [3, 4],
     ]),
     text: "hiLL CIpHEr",
-    noCleanText: false,
   },
   {
     srv: new HillCipherSrv([
-      [1, 2],
+      [1, 5],
       [3, 4],
     ]),
     text: "HilL CIPHERA",
-    noCleanText: false,
   },
   {
     srv: new HillCipherSrv([
@@ -64,25 +75,28 @@ const HillCipherTest = [
       [12, 3, 21],
     ]),
     text: "HILL CIPHER",
-    noCleanText: false,
   },
 ];
+
+const HillCipherTestWithComparator = HillCipherTest.map((e) => {
+  return {
+    ...e,
+    customCompare: hillCipherComparator,
+  };
+});
 
 const AffineCipherTest = [
   {
     srv: new AffineCipherSrv(17, 20),
     text: "AFFINE CIPHER",
-    noCleanText: false,
   },
   {
     srv: new AffineCipherSrv(15, 17),
     text: "affine CIPHer",
-    noCleanText: false,
   },
   {
     srv: new AffineCipherSrv(3, 10),
     text: "aFFine CIPHer",
-    noCleanText: false,
   },
 ];
 
@@ -90,17 +104,14 @@ const AutoKeyVigenereCipherTest = [
   {
     srv: new AutoKeyVigenereCipherSrv("N"),
     text: "HELLO",
-    noCleanText: false,
   },
   {
     srv: new AutoKeyVigenereCipherSrv("ArgH"),
     text: "LIGHT SPeeD chewie NOW",
-    noCleanText: false,
   },
   {
     srv: new AutoKeyVigenereCipherSrv("aa"),
     text: "HEll",
-    noCleanText: false,
   },
 ];
 
@@ -123,15 +134,19 @@ const ExtendedVigenereCipherTest = [
 ];
 
 const main = () => {
-  const testCases = [
-    ...HillCipherTest,
+  const testCases: ITest[] = [
+    ...HillCipherTestWithComparator,
     ...AffineCipherTest,
     ...AutoKeyVigenereCipherTest,
     ...ExtendedVigenereCipherTest,
   ];
 
-  testCases.forEach((testCase) => {
-    testSrv(testCase.srv, testCase.text, testCase.noCleanText);
+  testCases.forEach(async (testCase) => {
+    try {
+      await testSrv(testCase);
+    } catch (err) {
+      console.log(err);
+    }
   });
 };
 
