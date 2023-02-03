@@ -33,8 +33,8 @@ const PlayFairCipher = () => {
     setMsg(text);
   };
 
-  const onDownload = () => {
-    if (!FileExtractorSrv.download(result, "myFile.txt")) {
+  const onDownload = (filename: string) => {
+    if (!FileExtractorSrv.download(result, filename)) {
       alert("Download failed");
     }
   };

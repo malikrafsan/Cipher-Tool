@@ -12,25 +12,27 @@ const ExtendedVigenereCipher = () => {
   const [result, setResult] = useState("");
   const [resultBuffer, setResultBuffer] = useState<ArrayBuffer>();
 
-	const onEncrypt = () => {
+  const onEncrypt = () => {
     const extendedVigenereCipher = new ExtendedVigenereCipherSrv(key);
-    if(fileType !== "") {
+    if (fileType !== "") {
       let encrypt = extendedVigenereCipher.encryptArrayBuffer(msgBuffer);
       setResultBuffer(encrypt);
+      setResult("Encrypted!");
     } else {
       let encrypt = extendedVigenereCipher.encrypt(msg);
-      setResult(encrypt)
+      setResult(encrypt);
     }
   };
 
   const onDecrypt = async () => {
     const extendedVigenereCipher = new ExtendedVigenereCipherSrv(key);
-    if(fileType !== "") {
+    if (fileType !== "") {
       let decrypt = extendedVigenereCipher.decryptArrayBuffer(msgBuffer);
       setResultBuffer(decrypt);
+      setResult("Decrypted!");
     } else {
       let decrypt = extendedVigenereCipher.decrypt(msg);
-      setResult(decrypt)
+      setResult(decrypt);
     }
   };
 
@@ -41,11 +43,11 @@ const ExtendedVigenereCipher = () => {
       const newFile = file;
       return (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = new Uint8Array(e.target.result as ArrayBuffer);
-        setMsgBuffer(arrayBuffer)
+        setMsgBuffer(arrayBuffer);
         setFileType(newFile.type);
         setFileName(newFile.name);
       };
-    }
+    };
 
     reader.onload = callback(file);
 
@@ -72,6 +74,7 @@ const ExtendedVigenereCipher = () => {
         onReadFile={onReadFile}
         onInput={(str) => setMsg(str)}
         textInput={msg}
+        noShowFilenameInput
       >
         <input
           type="text"

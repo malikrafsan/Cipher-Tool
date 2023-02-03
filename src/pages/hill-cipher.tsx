@@ -4,7 +4,10 @@ import { HillCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const HillCipher = () => {
   const [size, setSize] = useState(2);
-  const [matrix, setMatrix] = useState<number[][]>([]);
+  const [matrix, setMatrix] = useState<number[][]>([
+    [0, 0],
+    [0, 0],
+  ]);
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
 
@@ -29,14 +32,14 @@ const HillCipher = () => {
     const resp = await hcSrv.encrypt(cleaned);
     console.log(resp);
     setResult(resp);
-  }
+  };
 
   const handleDecrypt = async () => {
     const hcSrv = new HillCipherSrv(matrix);
     const resp = await hcSrv.decrypt(msg);
     console.log(resp);
     setResult(resp);
-  }
+  };
 
   const onReadFile = async (file: File) => {
     if (file.type !== "text/plain") {
@@ -46,13 +49,13 @@ const HillCipher = () => {
 
     const text = await FileExtractorSrv.readTxtFile(file);
     setMsg(text);
-  }
+  };
 
-  const onDownload = () => {
-    if (!FileExtractorSrv.download(result, "myFile.txt")) {
+  const onDownload = (filename: string) => {
+    if (!FileExtractorSrv.download(result, filename)) {
       alert("Download failed");
     }
-  }
+  };
 
   return (
     <div>

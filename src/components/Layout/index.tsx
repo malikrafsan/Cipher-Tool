@@ -6,7 +6,7 @@ import { FormatOptions as FO } from "@/types";
 
 interface ILayoutProps {
   children: React.ReactNode;
-  onDownload: () => void;
+  onDownload: (filename: string) => void;
   onReadFile: (file: File) => void;
   onInput: (text: string) => void;
   onEncrypt: () => void;
@@ -14,6 +14,7 @@ interface ILayoutProps {
   result: string;
   textInput: string;
   setResult: (text: string) => void;
+  noShowFilenameInput?: boolean;
 }
 
 const Layout = ({
@@ -26,7 +27,9 @@ const Layout = ({
   onDecrypt,
   result,
   setResult,
+  noShowFilenameInput,
 }: ILayoutProps) => {
+  const [filename, setFilename] = useState("cipher-result.txt");
   const [formatOpt, setFormatOpt] = useState<FO.FormatOptionValType>(
     FO.FORMAT_OPTIONS.NO_SPACES
   );
@@ -41,10 +44,8 @@ const Layout = ({
   const onChangeRadioFormat = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setFormatOpt(val as FO.FormatOptionValType);
-    setResult(
-      TextProcessor.format(result, val as FO.FormatOptionValType)
-    )
-  }
+    setResult(TextProcessor.format(result, val as FO.FormatOptionValType));
+  };
 
   return (
     <div className="layout">
@@ -80,7 +81,19 @@ const Layout = ({
       <div className={styles.cipherBtns}>
         <button onClick={onEncrypt}>Encrypt</button>
         <button onClick={onDecrypt}>Decrypt</button>
-        <button onClick={onDownload}>Download</button>
+      </div>
+      <div>
+        {!noShowFilenameInput && (
+          <div>
+            <input
+              type="text"
+              placeholder="filename"
+              value={filename}
+              onChange={(e) => setFilename(e.target.value)}
+            />
+          </div>
+        )}
+        <button onClick={() => onDownload(filename)}>Download</button>
       </div>
     </div>
   );
