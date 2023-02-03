@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import { VigenereCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const VigenereCipher = () => {
@@ -10,7 +10,8 @@ const VigenereCipher = () => {
 
 	const onEncrypt = () => {
     const affineCipherSrv = new VigenereCipherSrv(key);
-    const result = affineCipherSrv.encrypt(msg);
+    const cleaned = TextProcessor.clean(msg);
+    const result = affineCipherSrv.encrypt(cleaned);
     setResult(result);
   };
 
@@ -38,6 +39,7 @@ const VigenereCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Vigenere Cipher</h1>
       <Layout
         onEncrypt={onEncrypt}

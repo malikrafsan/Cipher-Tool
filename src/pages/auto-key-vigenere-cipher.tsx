@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import {
   AutoKeyVigenereCipherSrv,
   FileExtractorSrv,
@@ -45,6 +45,7 @@ const AutoKeyVigenereCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Auto-Key Vigenere Cipher</h1>
       <Layout
         onEncrypt={onEncrypt}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import { ExtendedVigenereCipherSrv, FileExtractorSrv } from "@/services";
 
 const ExtendedVigenereCipher = () => {
@@ -61,6 +61,7 @@ const ExtendedVigenereCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Extended Vigenere Cipher</h1>
       <Layout
         onEncrypt={onEncrypt}

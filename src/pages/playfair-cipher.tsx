@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import { PlayFairCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const PlayFairCipher = () => {
@@ -41,6 +41,7 @@ const PlayFairCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Play Fair Cipher</h1>
       <Layout
         onEncrypt={onEncrypt}

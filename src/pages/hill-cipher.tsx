@@ -1,4 +1,4 @@
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import { useState } from "react";
 import { HillCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
@@ -56,6 +56,7 @@ const HillCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Hill Cipher</h1>
       <Layout
         onDownload={onDownload}

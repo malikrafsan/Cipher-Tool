@@ -1,4 +1,4 @@
-import { Layout } from "@/components";
+import { Layout, Navbar } from "@/components";
 import { useState } from "react";
 import { AffineCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
@@ -39,6 +39,7 @@ const AffineCipher = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Affine Cipher</h1>
       <Layout
         onDownload={onDownload}
