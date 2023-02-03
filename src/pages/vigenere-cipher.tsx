@@ -43,6 +43,7 @@ const VigenereCipher = () => {
         onEncrypt={onEncrypt}
         onDecrypt={onDecrypt}
         result={result}
+        setResult={setResult}
         onInput={(str) => setMsg(str)}
         textInput={msg}
         onDownload={onDownload}

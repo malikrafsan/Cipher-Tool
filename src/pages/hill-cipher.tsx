@@ -65,6 +65,7 @@ const HillCipher = () => {
         onInput={(str) => setMsg(str)}
         textInput={msg}
         result={result}
+        setResult={setResult}
       >
         <div>
           <input type="number" value={size} onChange={handleChangeSize} />

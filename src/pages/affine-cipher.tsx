@@ -48,6 +48,7 @@ const AffineCipher = () => {
         onInput={(str) => setMsg(str)}
         textInput={msg}
         result={result}
+        setResult={setResult}
       >
         <input
           type="number"

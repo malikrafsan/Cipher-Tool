@@ -50,6 +50,7 @@ const AutoKeyVigenereCipher = () => {
         onEncrypt={onEncrypt}
         onDecrypt={onDecrypt}
         result={result}
+        setResult={setResult}
         onDownload={onDownload}
         onReadFile={onReadFile}
         onInput={(str) => setMsg(str)}
