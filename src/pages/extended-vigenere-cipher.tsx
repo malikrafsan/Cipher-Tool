@@ -14,32 +14,34 @@ const ExtendedVigenereCipher = () => {
 
 	const onEncrypt = () => {
     const extendedVigenereCipher = new ExtendedVigenereCipherSrv(key);
-    const encrypt = extendedVigenereCipher.encryptArrayBuffer(msgBuffer);
-    let enc = new TextDecoder("utf-8");
-    setResult(enc.decode(encrypt))
-    setResultBuffer(encrypt);
-    console.log(encrypt)
+    if(fileType !== "") {
+      let encrypt = extendedVigenereCipher.encryptArrayBuffer(msgBuffer);
+      setResultBuffer(encrypt);
+    } else {
+      let encrypt = extendedVigenereCipher.encrypt(msg);
+      setResult(encrypt)
+    }
   };
 
   const onDecrypt = async () => {
     const extendedVigenereCipher = new ExtendedVigenereCipherSrv(key);
-    const decrypt = extendedVigenereCipher.decryptArrayBuffer(msgBuffer);
-    let enc = new TextDecoder("utf-8");
-    setResult(enc.decode(decrypt))
-    setResultBuffer(decrypt);
+    if(fileType !== "") {
+      let decrypt = extendedVigenereCipher.decryptArrayBuffer(msgBuffer);
+      setResultBuffer(decrypt);
+    } else {
+      let decrypt = extendedVigenereCipher.decrypt(msg);
+      setResult(decrypt)
+    }
   };
 
   const onReadFile = (file: File) => {
     const reader = new FileReader();
-    console.log(file.type)
 
     const callback = (file: File) => {
       const newFile = file;
       return (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = new Uint8Array(e.target.result as ArrayBuffer);
         setMsgBuffer(arrayBuffer)
-        let enc = new TextDecoder("utf-8");
-        setMsg(enc.decode(arrayBuffer))
         setFileType(newFile.type);
         setFileName(newFile.name);
       };
