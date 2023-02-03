@@ -55,11 +55,22 @@ const ExtendedVigenereCipher = () => {
   };
 
   const onDownload = () => {
-    const blob = new Blob([resultBuffer], { type: fileType });
-    const file = new File([blob], fileName, { type: fileType });
+    if (fileType !== "") {
+      const blob = new Blob([resultBuffer], { type: fileType });
+      const file = new File([blob], fileName, { type: fileType });
 
-    FileExtractorSrv.downloadFile(file, fileName);
+      FileExtractorSrv.downloadFile(file, fileName);
+    } else {
+      if (!FileExtractorSrv.download(result, "cipher-result.txt")) {
+        alert("Download failed");
+      }
+    }
   };
+
+  const onInput = (str: string) => {
+    setMsg(str);
+    setFileType("");
+  }
 
   return (
     <div>
@@ -72,7 +83,7 @@ const ExtendedVigenereCipher = () => {
         setResult={setResult}
         onDownload={onDownload}
         onReadFile={onReadFile}
-        onInput={(str) => setMsg(str)}
+        onInput={onInput}
         textInput={msg}
         noShowFilenameInput
       >
