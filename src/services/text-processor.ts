@@ -1,4 +1,4 @@
-import { FormatOptions as FO } from "@/types";
+import { FormatOptions as FO } from "../types";
 
 class TextProcessor {
   private static removeNonAlphabet(text: string) {

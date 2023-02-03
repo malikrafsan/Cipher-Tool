@@ -1,10 +1,12 @@
 import ICipherSrv from "./cipher-srv";
+import { TextProcessor } from "../services";
 
 class AutoKeyVigenereCipher implements ICipherSrv {
   private key: string;
   private readonly OFFSET = "A".charCodeAt(0);
 
   constructor(key: string) {
+    key = TextProcessor.clean(key);
     this.key = key;
   }
 
