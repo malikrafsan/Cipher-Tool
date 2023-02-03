@@ -17,32 +17,38 @@ const TestPage = () => {
     const reader = new FileReader();
     console.log(file.type)
 
-    const callback = (file) => {
+    const callback = (file: File) => {
       const newFile = file;
       return (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = new Uint8Array(e.target.result as ArrayBuffer);
         // convert uint8array to string
-        const str = new TextDecoder("utf-8").decode(arrayBuffer);
-        // setContent(str);
-        console.log(str);
+        // const str = new TextDecoder("utf-8").decode(arrayBuffer);
+        // // setContent(str);
+        // console.log(str);
+
+        // const cipher = new ExtendedVigenereCipherSrv("MALIK");
+        // const result = cipher.encrypt(str);
+        // // console.log(result);
+
+        // const result2 = cipher.decrypt(result);
+        // console.log(result2);
+
+        // // convert string to uint8array and file / blob
+        // const uint8array = new TextEncoder().encode(result2);
 
         const cipher = new ExtendedVigenereCipherSrv("MALIK");
-        const result = cipher.encrypt(str);
-        // console.log(result);
 
-        const result2 = cipher.decrypt(result);
-        console.log(result2);
+        const encrypt = cipher.encryptArrayBuffer(arrayBuffer);
+        const uint8array = cipher.decryptArrayBuffer(encrypt);
 
-        // convert string to uint8array and file / blob
-        const uint8array = new TextEncoder().encode(result2);
         const blob = new Blob([uint8array], { type: newFile.type });
         const file = new File([blob], newFile.name, { type: newFile.type });
 
         FileExtractorSrv.downloadFile(file, newFile.name);
 
-        if (result2 === str) {
-          console.log("OK");
-        }
+        // if (result2 === str) {
+        //   console.log("OK");
+        // }
       };
     }
 

@@ -133,12 +133,44 @@ const ExtendedVigenereCipherTest = [
   },
 ];
 
+const PlayFairCipherTest = [
+  {
+    srv: new PlayFairCipherSrv("playfair example"),
+    text: "Hide the gold in the tree stump",
+  },
+  {
+    srv: new PlayFairCipherSrv("playfair example again"),
+    text: "Hide the gold in the tree stump while you can because the police is coming",
+  },
+  {
+    srv: new PlayFairCipherSrv("playfair example again and again"),
+    text: "Hide the gold in the tree stump while you can because the police is coming, if you fail to do so, you will be arrested",
+  },
+];
+
+const VigenereCipherTest = [
+  {
+    srv: new VigenereCipherSrv("Vigenere"),
+    text: "Vigenere Cipher",
+  },
+  {
+    srv: new VigenereCipherSrv("Vigenere Cipher"),
+    text: "Vigenere Cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It is a form of polyalphabetic substitution.",
+  },
+  {
+    srv: new VigenereCipherSrv("Vigenere Cipher again"),
+    text: "Vigenere Cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It is a form of polyalphabetic substitution. This method is easy to understand and implement, but it is not secure enough for modern applications.",
+  }
+]
+
 const main = () => {
   const testCases: ITest[] = [
     ...HillCipherTestWithComparator,
     ...AffineCipherTest,
     ...AutoKeyVigenereCipherTest,
     ...ExtendedVigenereCipherTest,
+    ...PlayFairCipherTest,
+    ...VigenereCipherTest,
   ];
 
   testCases.forEach(async (testCase) => {
