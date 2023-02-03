@@ -21,6 +21,9 @@ const Home = () => {
       <Link href="/hill-cipher">
         <div>Hill Cipher</div>
       </Link>
+      <Link href="/enigma-cipher">
+        <div>Enigma Cipher</div>
+      </Link>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { HillCipherSrv, FileExtractorSrv, TextProcessor } from "@/services";
 
 const HillCipher = () => {
-  const [size, setSize] = useState(0);
+  const [size, setSize] = useState(2);
   const [matrix, setMatrix] = useState<number[][]>([]);
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");

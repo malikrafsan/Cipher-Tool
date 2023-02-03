@@ -11,6 +11,7 @@ import {
   CipherApiSrv,
   FileExtractorSrv,
   TextProcessor,
+  EnigmaCipherSrv,
 } from "../src/services";
 
 const testSrv = async (test: ITest) => {
@@ -37,7 +38,6 @@ const testSrv = async (test: ITest) => {
     );
   }
 
-  console.log("TestSrv passed: " + srv.constructor.name);
   return true;
 };
 
@@ -163,6 +163,21 @@ const VigenereCipherTest = [
   }
 ]
 
+const EnigmaCipherTest = [
+  {
+    srv: new EnigmaCipherSrv(["A", "A", "A"]),
+    text: "Enigma Cipher",
+  },
+  {
+    srv: new EnigmaCipherSrv(["A", "A", "A"]),
+    text: "Enigma Cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It is a form of polyalphabetic substitution.",
+  },
+  {
+    srv: new EnigmaCipherSrv(["S", "T", "R"]),
+    text: "Enigma Cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It is a form of polyalphabetic substitution.",
+  },
+];
+
 const main = () => {
   const testCases: ITest[] = [
     ...HillCipherTestWithComparator,
@@ -171,6 +186,7 @@ const main = () => {
     ...ExtendedVigenereCipherTest,
     ...PlayFairCipherTest,
     ...VigenereCipherTest,
+    ...EnigmaCipherTest,
   ];
 
   testCases.forEach(async (testCase) => {

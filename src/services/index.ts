@@ -9,6 +9,7 @@ import ApiSrv from "./api-srv";
 import CipherApiSrv from "./cipher-api-srv";
 import FileExtractorSrv from "./file-extractor-srv";
 import TextProcessor from "./text-processor";
+import EnigmaCipherSrv from "./enigma-cipher-srv";
 
 export {
   type ICipherSrv,
@@ -22,4 +23,5 @@ export {
   CipherApiSrv,
   FileExtractorSrv,
   TextProcessor,
+  EnigmaCipherSrv,
 };
